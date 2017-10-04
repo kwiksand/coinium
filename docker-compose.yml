@@ -1,0 +1,24 @@
+---
+server:
+  image: quay.io/kwiksand/coinium:latest
+  ports:
+   - "9080:8080"
+   - "3333:3333"
+   - "3433:3433"
+  volumes:
+   - /media/crypto/coinium/config:/home/coinium/CoiniumServ/bin/Release/config
+  links:
+  - mysql
+  - redis
+mysql:
+  image: mysql
+  ports:
+  - "13306:3306"
+  environment:
+    'MYSQL_ROOT_PASSWORD': password
+  volumes:
+   - ./sql:/docker-entrypoint-initdb.d
+redis:
+  image: redis
+  ports:
+  - "6379:6379"
